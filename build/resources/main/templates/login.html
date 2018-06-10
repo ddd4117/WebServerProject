@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>KNU Do it for me</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+
+
+<!-- Form-->
+<div class="form">
+    <div class="form-toggle"></div>
+    <div class="form-panel one">
+        <div class="form-header">
+            <h1>Account Login</h1>
+        </div>
+        <div class="form-content">
+            <form method="post" action="/login">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-remember">
+                        <input type="checkbox"/>Remember Me
+                    </label><a href="#" class="form-recovery">Forgot Password?</a>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Log In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="form-panel two">
+        <div class="form-header">
+            <h1>Register Account</h1>
+        </div>
+        <div class="form-content">
+            <form>
+                <div class="form-group">
+                    <label for="regi_name">Username</label>
+                    <input type="text" id="regi_name" name="regi_name" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label for="regi_pwd">Password</label>
+                    <input type="password" id="regi_pwd" name="regi_pwd" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label for="cpassword">Confirm Password</label>
+                    <input type="password" id="cpassword" name="cpassword" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="text" id="email" name="email" required="required"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" onClick="goPost()">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var panelOne = $('.form-panel.two').height(),
+            panelTwo = $('.form-panel.two')[0].scrollHeight;
+
+        $('.form-panel.two').not('.form-panel.two.active').on('click', function(e) {
+            e.preventDefault();
+
+            $('.form-toggle').addClass('visible');
+            $('.form-panel.one').addClass('hidden');
+            $('.form-panel.two').addClass('active');
+            $('.form').animate({
+                'height': panelTwo
+            }, 200);
+        });
+
+        $('.form-toggle').on('click', function(e) {
+            e.preventDefault();
+            $(this).removeClass('visible');
+            $('.form-panel.one').removeClass('hidden');
+            $('.form-panel.two').removeClass('active');
+            $('.form').animate({
+                'height': panelOne
+            }, 200);
+        });
+    });
+    function goPost() {
+        var id = document.getElementsByName('regi_name')[0].value;
+        var pwd = document.getElementsByName('regi_pwd')[0].value;
+        var pwd2 = document.getElementsByName('cpassword')[0].value;
+        var email = document.getElementsByName('email')[0].value;
+        if(pwd == '' || id == '' || pwd2 == '' || email == '')
+        {
+            alert("빈칸을 채워주세요");
+        }
+        else if(pwd != pwd2)
+        {
+            alert("비밀번호가 서로 다릅니다 다시입력해 주세요");
+        }
+        else {
+            checkEmail = email.substr(email.indexOf("@")+1);
+            if(checkEmail != "knu.ac.kr")
+            {
+                alert("경북대학교 메일이 아닙니다.")
+            }
+            else {
+                var form = document.createElement("form");
+                form.setAttribute("charset", "UTF-8");
+                form.setAttribute("method", "post"); // Get 또는 Post 입력
+                form.setAttribute("action", "/addUser");
+
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", "regi_name");
+                hiddenField.setAttribute("value", id);
+                form.appendChild(hiddenField);
+
+                hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", "regi_pwd");
+                hiddenField.setAttribute("value", pwd);
+                form.appendChild(hiddenField);
+
+                hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", "email");
+                hiddenField.setAttribute("value", email);
+                form.appendChild(hiddenField);
+
+                document.body.appendChild(form);
+                form.submit();
+                alert("메일이 전송되었습니다.\n확인해주세요.")
+            }
+        }
+    }
+</script>
+</body>
+</html>

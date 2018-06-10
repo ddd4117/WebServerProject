@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            background-color: #474747;
+        }
+        h2 {
+            font: 50px Tahoma, Helvetica, Arial, Sans-Serif;
+            text-align: center;
+
+            color: #222; text-shadow: 0px 2px 3px #555;
+            padding-bottom: auto;
+        }
+    </style>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+
+<h2>내 글 목록</h2>
+<div id="content">
+    <div class="table100 ver1 m-b-110" align="center">
+        <div class="table100-head">
+            <table>
+                <thead>
+                <tr>
+                    <th class="cell100 column1">Title</th>
+                    <th class="cell100 column2">Pay</th>
+                    <th class="cell100 column3">Time</th>
+                    <th class="cell100 column4">Loaction</th>
+                    <th class="cell100 column5">Writer</th>
+                    <th class="cell100 column6">Match</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table100-body js-pscroll">
+            <table>
+                <tbody>
+                <tr th:each="obj:${postList}">
+                    <td name='title' class=" cell100 column1">
+                        <a th:href="@{'/post=' + ${obj.p_id}}" th:text="${obj.p_title}"></a>
+                    </td>
+                    <td class="cell100 column2" th:text="${obj.p_money}"></td>
+                    <td class="cell100 column3" th:text="${obj.p_time}"></td>
+                    <td class="cell100 column4" th:text="${obj.p_location}"></td>
+                    <td class="cell100 column5" th:text="${obj.member_id}"></td>
+                    <td class="cell100 column6" th:text="${obj.flagString()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<h2><br/>매칭 결과</h2>
+<div id="content2">
+    <div class="table100 ver1 m-b-110" align="center">
+        <div class="table100-head">
+            <table>
+                <thead>
+                <tr>
+                    <th class="cell100 column1">Title</th>
+                    <th class="cell100 column2">Pay</th>
+                    <th class="cell100 column3">Time</th>
+                    <th class="cell100 column4">Loaction</th>
+                    <th class="cell100 column5">Writer</th>
+                    <th class="cell100 column6">Match</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table100-body js-pscroll">
+            <table>
+                <tbody>
+                <tr th:each="obj:${matchList}">
+                    <td name='title' class=" cell100 column1">
+                        <a th:href="@{'/post=' + ${obj.p_id}}" th:text="${obj.p_title}"></a>
+                    </td>
+                    <td class="cell100 column2" th:text="${obj.p_money}"></td>
+                    <td class="cell100 column3" th:text="${obj.p_time}"></td>
+                    <td class="cell100 column4" th:text="${obj.p_location}"></td>
+                    <td class="cell100 column5" th:text="${obj.member_id}"></td>
+                    <td class="cell100 column6" th:text="${obj.flagString()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<h2><br/>수락한 목록</h2>
+<div id="content3">
+    <div class="table100 ver1 m-b-110" align="center">
+        <div class="table100-head">
+            <table>
+                <thead>
+                <tr>
+                    <th class="cell100 column1">Title</th>
+                    <th class="cell100 column2">Pay</th>
+                    <th class="cell100 column3">Time</th>
+                    <th class="cell100 column4">Loaction</th>
+                    <th class="cell100 column5">Writer</th>
+                    <th class="cell100 column6">Match</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table100-body js-pscroll">
+            <table>
+                <tbody>
+                <tr th:each="obj:${accept}">
+                    <td name='title' class=" cell100 column1">
+                        <a th:href="@{'/post=' + ${obj.p_id}}" th:text="${obj.p_title}"></a>
+                    </td>
+                    <td class="cell100 column2" th:text="${obj.p_money}"></td>
+                    <td class="cell100 column3" th:text="${obj.p_time}"></td>
+                    <td class="cell100 column4" th:text="${obj.p_location}"></td>
+                    <td class="cell100 column5" th:text="${obj.member_id}"></td>
+                    <td class="cell100 column6" th:text="${obj.flagString()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

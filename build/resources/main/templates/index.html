@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+    <p th:text="${num} + ' : ' + (${check} ? ${trueVal} : ${falseVal})"></p>
+    <p th:if="${check}" th:text="${num} + ' : ' + ${trueVal}">true</p>
+    <p th:unless="${check}" th:text="${num} + ' : ' + ${falseVal}">true</p>
+    <div th:switch="${num}">
+        <p th:case="1" th:text="one">1</p>
+        <p th:case="2" th:text="two">2</p>
+        <p th:case="3" th:text="three">3</p>
+    </div>
+    <table border ="1">
+        <tr>
+            <td>NAME</td>
+            <td>E-mail</td>
+        </tr>
+        <tr th:each="obj:${list}">
+            <td th:text="${obj[0]}"></td>
+            <td th:text="${obj[1]}"></td>
+        </tr>
+    </table>
+</body>
+</html>

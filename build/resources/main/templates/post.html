@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style type="text/css">
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KNU Do it for me</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=wCf7K1RJbecDH5erbGoD&submodules=geocoder"></script>
+</head>
+<body>
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+        <caption> 글 읽기</caption>
+        </thead>
+        <tbody>
+        <form action="write_ok.jsp" method="post" encType="multiplart/form-data">
+            <tr>
+                <th>제목:</th>
+                <td align="center" th:text="${post.p_title}"> title</td>
+            </tr>
+            <tr align="center">
+                <th>내용:</th>
+                <td align="center" th:text="${post.p_content}"></td>
+            </tr>
+            <tr>
+                <th>시간:</th>
+                <td align="center" th:text="${post.p_time}"> 12:00~13:00</td>
+            </tr>
+            <tr>
+                <th>수고비:</th>
+                <td align="center" th:text="${post.p_money}"> 1000</td>
+            </tr>
+            <tr>
+                <th>위치:</th>
+                <td align="center" th:text="${post.p_location}"> 경북대 북문</td>
+            </tr>
+            <tr>
+                <th>연락처</th>
+                <td align="center" th:text="${post.p_contact}"> 010-xxxx-xxxx / 카톡 : asdqwe123</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div>
+                        <div align="right">
+                            <input type="button" value="수락" onclick=goPost() class="button"/>
+                            <input type="button" value="글 목록으로... " onclick="window.location.href='/main'" class="button"/>
+                        </div>
+                    </div>
+                    <!-- <a class="btn btn-default" onclick="sendData()"> 등록 </a>
+                    <a class="btn btn-default" type="reset"> reset </a>
+                    <a class="btn btn-default" onclick="javascript:location.href='list.jsp'">글 목록으로...</a> -->
+                </td>
+            </tr>
+        </form>
+        </tbody>
+
+    </table>
+    <div align="center">
+        <div id="map" style="width:500px;height:400px;"></div>
+    </div>
+
+
+</div>
+<script>
+    var position = new naver.maps.LatLng(35.893000, 128.607000);
+    var position2 = new naver.maps.LatLng(35.890000, 128.610088);
+    var map = new naver.maps.Map('map', {
+        center: position,
+        zoom: 10
+    });
+
+    var marker1 = new naver.maps.Marker({
+        position: position,
+        map: map
+    });
+
+    var marker2 = new naver.maps.Marker({
+        position: position2,
+        map: map
+    });
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function goPost() {
+        var pid = [[${post.p_id}]];
+        var writer = [[${post.member_id}]];
+        var myid = [[${session.id}]];
+        if(writer == myid)
+        {
+            alert("나의 글입니다.");
+        }
+        else if(myid == null){
+            alert("로그인 해주세요");
+            location.href='/login';
+        }
+        else
+        {
+            var form = document.createElement("form");
+            form.setAttribute("charset", "UTF-8");
+            form.setAttribute("method", "post"); // Get 또는 Post 입력
+            form.setAttribute("action", "/match/accept");
+
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "p_id");
+            hiddenField.setAttribute("value", pid);
+            form.appendChild(hiddenField);
+
+            hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "writer");
+            hiddenField.setAttribute("value", writer);
+            form.appendChild(hiddenField);
+
+            hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "myid");
+            hiddenField.setAttribute("value", myid);
+            form.appendChild(hiddenField);
+            document.body.appendChild(form);
+            form.submit();
+            alert("수락되었습니다.");
+        }
+    }
+</script>
+</body>
+</html>
